@@ -20,7 +20,7 @@ const Overview: React.FC = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                <MetricCard title="ราคาตลาดน้ำตาลโตนด" value="300-400฿" note="/ กิโลกรัม" valueColor="text-[#D4A373]" />
+                <MetricCard title="ราคาตลาดน้ำตาลโตนด" value="190-250฿" note="/ กิโลกรัม" valueColor="text-[#D4A373]" />
                 <MetricCard title="ต้นทุนผลิตต่อขวด (250ml)" value="~65-70฿" note="รวมค่าการตลาด" valueColor="text-[#A3B18A]" />
                 <MetricCard title="ราคาขายที่แนะนำ" value="120-180฿" note="/ ขวด 250ml" valueColor="text-[#D4A373]" />
             </div>

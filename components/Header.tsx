@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({ activeSection }) => {
                     <div className="flex items-center justify-between h-16">
                         <div className="flex-shrink-0">
                             <a href="#" className="flex items-center">
-                                <img className="h-8 w-auto mr-2 bg-white p-0.5 rounded-sm border-2 border-[#EFE5D8]" src="https://cdn.jsdelivr.net/gh/devoncasa/goldentaan-assets@main/golden-taan-logo-smll.webp" alt="Golden TAAN Logo" />
+                                <img className="h-10 w-auto mr-2 bg-white p-0.5 rounded-full border-2 border-[#EFE5D8]" src="https://cdn.jsdelivr.net/gh/devoncasa/goldentaan-assets@main/golden-taan-logo-smll.webp" alt="Golden TAAN Logo" />
                                 <h1 className="text-xl font-bold text-[#4A4A4A]">Golden TAAN</h1>
                             </a>
                         </div>

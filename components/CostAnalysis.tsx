@@ -182,6 +182,9 @@ const CostAnalysis: React.FC = () => {
                     </div>
                 </div>
             </div>
+            <p className="mt-8 text-xs text-gray-500 italic text-center max-w-4xl mx-auto">
+                * หมายเหตุ: ตัวเลขทั้งหมดเป็นค่าประมาณการเพื่อใช้ประกอบการตัดสินใจเบื้องต้นเท่านั้น ต้นทุนและกำไรที่แท้จริงอาจแตกต่างกันไปตามสภาวะตลาดและการเจรจาต่อรอง
+            </p>
         </section>
     );
 };

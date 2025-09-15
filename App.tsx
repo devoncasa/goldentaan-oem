@@ -9,6 +9,7 @@ import Partners from './components/Partners';
 import Summary from './components/Summary';
 import About from './components/About';
 import Contact from './components/Contact';
+import Footer from './components/Footer';
 
 const App: React.FC = () => {
     const sections = {
@@ -115,6 +116,7 @@ const App: React.FC = () => {
                     </div>
                 </div>
             </main>
+            <Footer />
         </>
     );
 };
