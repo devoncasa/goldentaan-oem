@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const CustomerCard: React.FC<{ icon: string; title: string; description: string }> = ({ icon, title, description }) => (
@@ -28,6 +27,7 @@ const MarketAnalysis: React.FC = () => {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                 <div>
+                    <img src="https://cdn.jsdelivr.net/gh/devoncasa/goldentaan-assets@main/goldentaan-oem3.webp" alt="Golden TAAN Syrup in a Cafe" className="rounded-lg shadow-md mb-8 w-full object-cover bg-white p-1 border-4 border-[#EFE5D8]" />
                     <h3 className="text-2xl font-semibold mb-6 text-center lg:text-left">กลุ่มลูกค้าเป้าหมาย</h3>
                     <div className="space-y-4">
                         <CustomerCard icon="🧘" title="กลุ่มคนรักสุขภาพ" description="มองหาน้ำตาลทางเลือกที่ดีต่อสุขภาพ มีดัชนีน้ำตาลต่ำ และมาจากธรรมชาติ" />

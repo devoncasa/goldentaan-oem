@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from 'react';
 import { partnersData } from '../constants';
 import { Partner } from '../types';
@@ -6,7 +5,7 @@ import { Partner } from '../types';
 const certifications = ["GMP", "HACCP", "ISO 9001", "HALAL"];
 
 const PartnerCard: React.FC<{ partner: Partner }> = ({ partner }) => (
-    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 transition-all duration-300">
+    <div className="bg-white p-6 rounded-xl shadow-lg border border-gray-100 transition-all duration-300 hover:scale-105 hover:shadow-xl">
         <h4 className="text-xl font-bold text-[#4A4A4A]">{partner.name}</h4>
         <p className="text-sm text-gray-500">{partner.location}</p>
         <div className="mt-4 flex flex-wrap gap-2">

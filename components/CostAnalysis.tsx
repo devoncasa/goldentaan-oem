@@ -1,9 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import CostInputControl from './CostInputControl';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 const CostAnalysis: React.FC = () => {
     // State for all adjustable cost and pricing inputs
@@ -41,8 +41,18 @@ const CostAnalysis: React.FC = () => {
         };
     }, [rawMatCostKg, oemCost, packagingCost, docCost, boxCost, wholesalePriceFOB, shippingInsuranceCost, suggestedRetailPrice]);
 
-    const chartData = {
-        labels: ['ค่าวัตถุดิบ', 'ค่า OEM', 'ค่าบรรจุภัณฑ์', 'ค่าเอกสาร', 'ค่ากล่อง'],
+    const costLabels = ['ค่าวัตถุดิบ', 'ค่า OEM', 'ค่าบรรจุภัณฑ์', 'ค่าเอกสาร', 'ค่ากล่อง'];
+    const costColors = [
+        'rgba(212, 163, 115, 0.8)',
+        'rgba(163, 177, 138, 0.8)',
+        'rgba(212, 183, 155, 0.8)',
+        'rgba(180, 190, 160, 0.8)',
+        'rgba(200, 170, 130, 0.8)',
+    ];
+    const costBorderColors = ['#D4A373', '#A3B18A', '#D4B79B', '#B4BEA0', '#C8AA82'];
+
+    const barChartData = {
+        labels: costLabels,
         datasets: [{
             label: 'Cost Breakdown (THB)',
             data: [
@@ -52,25 +62,13 @@ const CostAnalysis: React.FC = () => {
                 docCost,
                 boxCost,
             ],
-            backgroundColor: [
-                'rgba(212, 163, 115, 0.7)',
-                'rgba(163, 177, 138, 0.7)',
-                'rgba(212, 183, 155, 0.7)',
-                'rgba(180, 190, 160, 0.7)',
-                'rgba(200, 170, 130, 0.7)',
-            ],
-            borderColor: [
-                '#D4A373',
-                '#A3B18A',
-                '#D4B79B',
-                '#B4BEA0',
-                '#C8AA82',
-            ],
+            backgroundColor: costColors.map(c => c.replace('0.8', '0.7')),
+            borderColor: costBorderColors,
             borderWidth: 1
         }]
     };
 
-    const chartOptions = {
+    const barChartOptions = {
         responsive: true,
         maintainAspectRatio: false,
         indexAxis: 'y' as const,
@@ -85,6 +83,39 @@ const CostAnalysis: React.FC = () => {
         scales: {
             x: { beginAtZero: true, title: { display: true, text: 'ต้นทุน (บาท)' } }
         }
+    };
+    
+    const doughnutChartData = useMemo(() => {
+        const { rawMatCostBottle, totalFobCost } = calculations;
+        const costs = [rawMatCostBottle, oemCost, packagingCost, docCost, boxCost];
+        const percentages = totalFobCost > 0 ? costs.map(cost => (cost / totalFobCost) * 100) : costs.map(() => 0);
+        return {
+            labels: costLabels,
+            datasets: [{
+                data: percentages,
+                backgroundColor: costColors,
+                borderColor: costBorderColors,
+                borderWidth: 1
+            }]
+        };
+    }, [calculations, oemCost, packagingCost, docCost, boxCost]);
+
+    const doughnutChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { position: 'right' as const, labels: { boxWidth: 12, padding: 15 } },
+            tooltip: {
+                callbacks: {
+                    label: (context: any) => {
+                        const label = context.label || '';
+                        const value = context.raw || 0;
+                        return `${label}: ${value.toFixed(1)}%`;
+                    }
+                }
+            }
+        },
+        cutout: '50%',
     };
     
     const ResultCard: React.FC<{ title: string; value: string; subValue?: string; color: string;}> = ({ title, value, subValue, color }) => (
@@ -135,10 +166,18 @@ const CostAnalysis: React.FC = () => {
                         <ResultCard title="ต้นทุนของคู่ค้า (CIF)" value={`${calculations.partnerLandedCost.toFixed(2)} ฿`} color="text-[#D4A373]" />
                         <ResultCard title="กำไรของคู่ค้า (โดยประมาณ)" value={`${calculations.partnerProfit.toFixed(2)} ฿`} subValue={`Margin: ${calculations.partnerMargin.toFixed(2)}%`} color="text-sky-600" />
                     </div>
-                    <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100">
-                        <h3 className="text-lg font-semibold text-center mb-2">โครงสร้างต้นทุนการผลิต</h3>
-                        <div className="relative h-64 md:h-80">
-                            <Bar options={chartOptions} data={chartData} />
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 items-center">
+                         <div className="lg:col-span-2 bg-white p-4 rounded-2xl shadow-lg border border-gray-100 h-full flex flex-col">
+                            <h3 className="text-lg font-semibold text-center mb-2">สัดส่วนต้นทุน (FOB)</h3>
+                            <div className="relative flex-grow w-full h-56 sm:h-64">
+                                <Doughnut data={doughnutChartData} options={doughnutChartOptions} />
+                            </div>
+                        </div>
+                        <div className="lg:col-span-3 bg-white p-4 rounded-2xl shadow-lg border border-gray-100 h-full flex flex-col">
+                            <h3 className="text-lg font-semibold text-center mb-2">โครงสร้างต้นทุน (บาท)</h3>
+                            <div className="relative flex-grow w-full h-56 sm:h-64">
+                                <Bar options={barChartOptions} data={barChartData} />
+                            </div>
                         </div>
                     </div>
                 </div>

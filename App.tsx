@@ -1,7 +1,7 @@
-
 import React, { useRef, useEffect, useState } from 'react';
 import Header from './components/Header';
 import Overview from './components/Overview';
+import GoldenTaanIntro from './components/GoldenTaanIntro';
 import MarketAnalysis from './components/MarketAnalysis';
 import OemProcess from './components/OemProcess';
 import CostAnalysis from './components/CostAnalysis';
@@ -13,6 +13,7 @@ import Contact from './components/Contact';
 const App: React.FC = () => {
     const sections = {
         overview: useRef<HTMLDivElement>(null),
+        intro: useRef<HTMLDivElement>(null),
         market: useRef<HTMLDivElement>(null),
         process: useRef<HTMLDivElement>(null),
         costs: useRef<HTMLDivElement>(null),
@@ -28,7 +29,7 @@ const App: React.FC = () => {
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.4,
+            threshold: 0.3, // Adjust if sections are not highlighting correctly
         };
 
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
@@ -59,15 +60,60 @@ const App: React.FC = () => {
     return (
         <>
             <Header activeSection={activeSection} />
-            <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-                <div ref={sections.overview} id="overview" className="scroll-mt-20"><Overview /></div>
-                <div ref={sections.market} id="market" className="scroll-mt-20 mt-16 md:mt-24"><MarketAnalysis /></div>
-                <div ref={sections.process} id="process" className="scroll-mt-20 mt-16 md:mt-24"><OemProcess /></div>
-                <div ref={sections.costs} id="costs" className="scroll-mt-20 mt-16 md:mt-24"><CostAnalysis /></div>
-                <div ref={sections.partners} id="partners" className="scroll-mt-20 mt-16 md:mt-24"><Partners /></div>
-                <div ref={sections.about} id="about" className="scroll-mt-20 mt-16 md:mt-24"><About /></div>
-                <div ref={sections.contact} id="contact" className="scroll-mt-20 mt-16 md:mt-24"><Contact /></div>
-                <div ref={sections.summary} id="summary" className="scroll-mt-20 mt-16 md:mt-24"><Summary /></div>
+            <main>
+                <div ref={sections.overview} id="overview" className="scroll-mt-16">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                        <Overview />
+                    </div>
+                </div>
+
+                <div ref={sections.intro} id="intro" className="scroll-mt-16 bg-[#F4EAE0]">
+                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                        <GoldenTaanIntro />
+                    </div>
+                </div>
+
+                <div ref={sections.market} id="market" className="scroll-mt-16">
+                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                        <MarketAnalysis />
+                    </div>
+                </div>
+
+                <div ref={sections.process} id="process" className="scroll-mt-16 bg-[#EFE5D8]">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                        <OemProcess />
+                    </div>
+                </div>
+
+                <div ref={sections.costs} id="costs" className="scroll-mt-16">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                        <CostAnalysis />
+                    </div>
+                </div>
+
+                <div ref={sections.partners} id="partners" className="scroll-mt-16 bg-[#F4EAE0]">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                        <Partners />
+                    </div>
+                </div>
+
+                <div ref={sections.about} id="about" className="scroll-mt-16 bg-[#A3B18A]">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                        <About />
+                    </div>
+                </div>
+
+                <div ref={sections.contact} id="contact" className="scroll-mt-16">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                        <Contact />
+                    </div>
+                </div>
+
+                <div ref={sections.summary} id="summary" className="scroll-mt-16 bg-[#EFE5D8]">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                        <Summary />
+                    </div>
+                </div>
             </main>
         </>
     );

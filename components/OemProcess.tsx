@@ -1,7 +1,26 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { stepsData } from '../constants';
 import { Step } from '../types';
+
+// A helper component to parse and render text with **bold** formatting.
+const FormattedText: React.FC<{ text: string }> = ({ text }) => {
+    // Split the text by the bold markers. The regex includes the markers in the result array.
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+
+    return (
+        <>
+            {parts.map((part, i) => {
+                if (part.startsWith('**') && part.endsWith('**')) {
+                    // This is a bold part. Remove the markers and wrap in <strong>.
+                    return <strong key={i} className="font-semibold text-[#4A4A4A]">{part.slice(2, -2)}</strong>;
+                }
+                // This is a regular text part.
+                return part;
+            })}
+        </>
+    );
+};
+
 
 const OemProcess: React.FC = () => {
     const [activeStep, setActiveStep] = useState<number>(0);
@@ -32,7 +51,7 @@ const OemProcess: React.FC = () => {
                                     {index + 1}
                                 </div>
                                 <h4 className={`pt-2 font-semibold transition-colors duration-300 ${activeStep === index ? 'text-[#D4A373] font-bold' : 'text-gray-700'}`}>
-                                    {step.title}
+                                    {step.title.substring(step.title.indexOf(' ') + 1)}
                                 </h4>
                             </div>
                         ))}
@@ -43,7 +62,27 @@ const OemProcess: React.FC = () => {
                        {activeStepDetails && (
                            <>
                              <h3 className="text-2xl font-bold mb-4 text-[#D4A373]">{activeStepDetails.title}</h3>
-                             <p className="text-gray-600 leading-relaxed">{activeStepDetails.details}</p>
+                             <div className="text-gray-600 leading-relaxed space-y-3">
+                                {activeStepDetails.details.split('\n').map((line, index) => {
+                                    const isBullet = line.startsWith('- ');
+                                    const content = isBullet ? line.substring(2) : line;
+
+                                    if (isBullet) {
+                                        return (
+                                            <div key={index} className="flex">
+                                                <span className="text-[#D4A373] font-bold mr-3">&#8226;</span>
+                                                <p className="flex-1"><FormattedText text={content} /></p>
+                                            </div>
+                                        );
+                                    }
+
+                                    return (
+                                        <p key={index}>
+                                            <FormattedText text={content} />
+                                        </p>
+                                    );
+                                })}
+                            </div>
                            </>
                        )}
                     </div>

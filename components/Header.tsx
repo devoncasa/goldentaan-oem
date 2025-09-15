@@ -7,6 +7,7 @@ interface NavLink {
 
 const navLinks: NavLink[] = [
     { href: '#overview', label: 'ภาพรวม' },
+    { href: '#intro', label: 'เกี่ยวกับ Golden TAAN' },
     { href: '#market', label: 'เจาะลึกตลาด' },
     { href: '#process', label: 'กระบวนการผลิต' },
     { href: '#costs', label: 'วิเคราะห์ต้นทุน' },
@@ -59,7 +60,10 @@ const Header: React.FC<HeaderProps> = ({ activeSection }) => {
                 <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16">
                         <div className="flex-shrink-0">
-                            <h1 className="text-xl font-bold text-[#4A4A4A]">น้ำเชื่อมน้ำตาลโตนด OEM</h1>
+                            <a href="#" className="flex items-center">
+                                <img className="h-8 w-auto mr-2 bg-white p-0.5 rounded-sm border-2 border-[#EFE5D8]" src="https://cdn.jsdelivr.net/gh/devoncasa/goldentaan-assets@main/golden-taan-logo-smll.webp" alt="Golden TAAN Logo" />
+                                <h1 className="text-xl font-bold text-[#4A4A4A]">Golden TAAN</h1>
+                            </a>
                         </div>
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
