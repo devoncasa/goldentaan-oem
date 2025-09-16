@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect, useState } from 'react';
 import Header from './components/Header';
 import Overview from './components/Overview';
@@ -81,72 +82,72 @@ const App: React.FC = () => {
             <Header activeSection={activeSection} />
             <main>
                 <div ref={sections.overview} id="overview" className="scroll-mt-16" style={parallaxStyle(bgImages[0])}>
-                    <div className="bg-[#FDF8F0]/[0.95]">
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                    <div className="bg-[#FDF8F0]/[0.93]">
+                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                             <Overview />
                         </div>
                     </div>
                 </div>
 
                 <div ref={sections.intro} id="intro" className="scroll-mt-16" style={parallaxStyle(bgImages[1])}>
-                     <div className="bg-[#F4EAE0]/[0.95]">
-                         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                     <div className="bg-[#F4EAE0]/[0.93]">
+                         <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                             <GoldenTaanIntro />
                         </div>
                     </div>
                 </div>
 
                 <div ref={sections.market} id="market" className="scroll-mt-16" style={parallaxStyle(bgImages[2])}>
-                     <div className="bg-[#FDF8F0]/[0.95]">
-                         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                     <div className="bg-[#FDF8F0]/[0.93]">
+                         <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                             <MarketAnalysis />
                         </div>
                     </div>
                 </div>
 
                 <div ref={sections.process} id="process" className="scroll-mt-16" style={parallaxStyle(bgImages[3])}>
-                    <div className="bg-[#EFE5D8]/[0.95]">
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                    <div className="bg-[#EFE5D8]/[0.93]">
+                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                             <OemProcess />
                         </div>
                     </div>
                 </div>
 
                 <div ref={sections.costs} id="costs" className="scroll-mt-16" style={parallaxStyle(bgImages[4])}>
-                    <div className="bg-[#FDF8F0]/[0.95]">
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                    <div className="bg-[#FDF8F0]/[0.93]">
+                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                             <CostAnalysis />
                         </div>
                     </div>
                 </div>
 
                 <div ref={sections.partners} id="partners" className="scroll-mt-16" style={parallaxStyle(bgImages[5])}>
-                    <div className="bg-[#F4EAE0]/[0.95]">
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                    <div className="bg-[#F4EAE0]/[0.93]">
+                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                             <Partners />
                         </div>
                     </div>
                 </div>
 
                 <div ref={sections.about} id="about" className="scroll-mt-16" style={parallaxStyle(bgImages[6])}>
-                    <div className="bg-[#A3B18A]/[0.95]">
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                    <div className="bg-[#A3B18A]/[0.93]">
+                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                             <About />
                         </div>
                     </div>
                 </div>
 
                 <div ref={sections.contact} id="contact" className="scroll-mt-16" style={parallaxStyle(bgImages[0])}>
-                    <div className="bg-[#FDF8F0]/[0.95]">
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                    <div className="bg-[#FDF8F0]/[0.93]">
+                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                             <Contact />
                         </div>
                     </div>
                 </div>
 
                 <div ref={sections.summary} id="summary" className="scroll-mt-16" style={parallaxStyle(bgImages[1])}>
-                    <div className="bg-[#EFE5D8]/[0.95]">
-                        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                    <div className="bg-[#EFE5D8]/[0.93]">
+                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
                             <Summary />
                         </div>
                     </div>
