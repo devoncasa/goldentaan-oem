@@ -1,4 +1,3 @@
-
 import React, { useRef, useEffect, useState } from 'react';
 import Header from './components/Header';
 import Overview from './components/Overview';
@@ -77,81 +76,68 @@ const App: React.FC = () => {
         backgroundSize: 'cover',
     });
 
+    const SectionWrapper: React.FC<{
+      sectionRef: React.RefObject<HTMLDivElement>;
+      id: string;
+      bgImage: string;
+      bgColor: string;
+      children: React.ReactNode;
+    }> = ({ sectionRef, id, bgImage, bgColor, children }) => (
+        <div ref={sectionRef} id={id} className="relative scroll-mt-16">
+            <div
+                className="absolute inset-0 z-0"
+                style={{
+                    ...parallaxStyle(bgImage),
+                    filter: 'blur(2px)',
+                }}
+            ></div>
+            <div className={`relative z-10 ${bgColor}`}>
+                <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
+
     return (
         <>
             <Header activeSection={activeSection} />
             <main>
-                <div ref={sections.overview} id="overview" className="scroll-mt-16" style={parallaxStyle(bgImages[0])}>
-                    <div className="bg-[#FDF8F0]/[0.93]">
-                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                            <Overview />
-                        </div>
-                    </div>
-                </div>
+                <SectionWrapper sectionRef={sections.overview} id="overview" bgImage={bgImages[0]} bgColor="bg-[#FDF8F0]/[0.93]">
+                    <Overview />
+                </SectionWrapper>
 
-                <div ref={sections.intro} id="intro" className="scroll-mt-16" style={parallaxStyle(bgImages[1])}>
-                     <div className="bg-[#F4EAE0]/[0.93]">
-                         <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                            <GoldenTaanIntro />
-                        </div>
-                    </div>
-                </div>
+                <SectionWrapper sectionRef={sections.intro} id="intro" bgImage={bgImages[1]} bgColor="bg-[#F4EAE0]/[0.93]">
+                    <GoldenTaanIntro />
+                </SectionWrapper>
 
-                <div ref={sections.market} id="market" className="scroll-mt-16" style={parallaxStyle(bgImages[2])}>
-                     <div className="bg-[#FDF8F0]/[0.93]">
-                         <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                            <MarketAnalysis />
-                        </div>
-                    </div>
-                </div>
+                <SectionWrapper sectionRef={sections.market} id="market" bgImage={bgImages[2]} bgColor="bg-[#FDF8F0]/[0.93]">
+                    <MarketAnalysis />
+                </SectionWrapper>
 
-                <div ref={sections.process} id="process" className="scroll-mt-16" style={parallaxStyle(bgImages[3])}>
-                    <div className="bg-[#EFE5D8]/[0.93]">
-                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                            <OemProcess />
-                        </div>
-                    </div>
-                </div>
+                <SectionWrapper sectionRef={sections.process} id="process" bgImage={bgImages[3]} bgColor="bg-[#EFE5D8]/[0.93]">
+                    <OemProcess />
+                </SectionWrapper>
 
-                <div ref={sections.costs} id="costs" className="scroll-mt-16" style={parallaxStyle(bgImages[4])}>
-                    <div className="bg-[#FDF8F0]/[0.93]">
-                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                            <CostAnalysis />
-                        </div>
-                    </div>
-                </div>
+                <SectionWrapper sectionRef={sections.costs} id="costs" bgImage={bgImages[4]} bgColor="bg-[#FDF8F0]/[0.93]">
+                    <CostAnalysis />
+                </SectionWrapper>
 
-                <div ref={sections.partners} id="partners" className="scroll-mt-16" style={parallaxStyle(bgImages[5])}>
-                    <div className="bg-[#F4EAE0]/[0.93]">
-                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                            <Partners />
-                        </div>
-                    </div>
-                </div>
+                <SectionWrapper sectionRef={sections.partners} id="partners" bgImage={bgImages[5]} bgColor="bg-[#F4EAE0]/[0.93]">
+                    <Partners />
+                </SectionWrapper>
+                
+                <SectionWrapper sectionRef={sections.about} id="about" bgImage={bgImages[6]} bgColor="bg-[#A3B18A]/[0.93]">
+                    <About />
+                </SectionWrapper>
 
-                <div ref={sections.about} id="about" className="scroll-mt-16" style={parallaxStyle(bgImages[6])}>
-                    <div className="bg-[#A3B18A]/[0.93]">
-                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                            <About />
-                        </div>
-                    </div>
-                </div>
+                <SectionWrapper sectionRef={sections.contact} id="contact" bgImage={bgImages[0]} bgColor="bg-[#FDF8F0]/[0.93]">
+                    <Contact />
+                </SectionWrapper>
 
-                <div ref={sections.contact} id="contact" className="scroll-mt-16" style={parallaxStyle(bgImages[0])}>
-                    <div className="bg-[#FDF8F0]/[0.93]">
-                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                            <Contact />
-                        </div>
-                    </div>
-                </div>
-
-                <div ref={sections.summary} id="summary" className="scroll-mt-16" style={parallaxStyle(bgImages[1])}>
-                    <div className="bg-[#EFE5D8]/[0.93]">
-                        <div className="container focused-desktop-layout mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-                            <Summary />
-                        </div>
-                    </div>
-                </div>
+                <SectionWrapper sectionRef={sections.summary} id="summary" bgImage={bgImages[1]} bgColor="bg-[#EFE5D8]/[0.93]">
+                    <Summary />
+                </SectionWrapper>
             </main>
             <Footer />
         </>

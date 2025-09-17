@@ -22,6 +22,7 @@ interface Inputs {
   insurance_thb_per_bottle: number;
   retail_share_percent: number;
   msrp_thb: { [key: number]: number };
+  fx_thb_per_usd: number;
 }
 
 interface CalculationResult {
@@ -34,9 +35,11 @@ interface CalculationResult {
   // Partner KPIs
   cif: number;
   net_to_partner: number;
-
   partner_profit: number;
   partner_margin: number;
+  // USD Values
+  fob_price_usd: number;
+  cif_usd: number;
   // Cost Breakdown
   cost_breakdown: {
       sugar: number;
@@ -89,6 +92,7 @@ const CostAnalysis: React.FC = () => {
         insurance_thb_per_bottle: 0.5,
         retail_share_percent: 45,
         msrp_thb: { "150": 249, "250": 299 },
+        fx_thb_per_usd: 36.5,
     });
     const [selectedChartSize, setSelectedChartSize] = useState<number>(150);
 
@@ -146,6 +150,10 @@ const CostAnalysis: React.FC = () => {
             const partner_profit = net_to_partner - cif;
             const partner_margin = net_to_partner > 0 ? (partner_profit / net_to_partner) * 100 : 0;
             
+            // USD Conversions
+            const fob_price_usd = inputs.fx_thb_per_usd > 0 ? fob_price / inputs.fx_thb_per_usd : 0;
+            const cif_usd = inputs.fx_thb_per_usd > 0 ? cif / inputs.fx_thb_per_usd : 0;
+
             return {
                 size,
                 fob_cost,
@@ -156,6 +164,8 @@ const CostAnalysis: React.FC = () => {
                 net_to_partner,
                 partner_profit,
                 partner_margin,
+                fob_price_usd,
+                cif_usd,
                 cost_breakdown: {
                     sugar: sugar_cost_per_bottle,
                     pectin: pectin_cost_per_bottle,
@@ -302,11 +312,13 @@ const CostAnalysis: React.FC = () => {
                 <h4 className="font-semibold text-gray-700 mt-2 border-b">สำหรับผู้ผลิต</h4>
                 <p>ต้นทุน FOB: <span className="font-bold float-right">{r.fob_cost.toFixed(2)} ฿</span></p>
                 <p>ราคา FOB: <span className="font-bold float-right">{r.fob_price.toFixed(2)} ฿</span></p>
+                {r.fob_price_usd > 0 && <p className="text-gray-500">ราคา FOB (USD): <span className="font-bold float-right">${r.fob_price_usd.toFixed(2)}</span></p>}
                 <p>กำไร: <span className="font-bold float-right text-green-600">{r.producer_profit.toFixed(2)} ฿</span></p>
                 <p>Margin: <span className="font-bold float-right text-green-600">{r.producer_margin.toFixed(2)} %</span></p>
 
                 <h4 className="font-semibold text-gray-700 pt-2 mt-2 border-b">สำหรับคู่ค้า (ผู้นำเข้า)</h4>
                 <p>ต้นทุน CIF: <span className="font-bold float-right">{r.cif.toFixed(2)} ฿</span></p>
+                {r.cif_usd > 0 && <p className="text-gray-500">ต้นทุน CIF (USD): <span className="font-bold float-right">${r.cif_usd.toFixed(2)}</span></p>}
                 <p>รายรับ (หลังหักค้าปลีก): <span className="font-bold float-right">{r.net_to_partner.toFixed(2)} ฿</span></p>
                 <p>กำไร: <span className="font-bold float-right text-sky-600">{r.partner_profit.toFixed(2)} ฿</span></p>
                 <p>Margin: <span className="font-bold float-right text-sky-600">{r.partner_margin.toFixed(2)} %</span></p>
@@ -328,26 +340,27 @@ const CostAnalysis: React.FC = () => {
                 <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-lg border border-gray-100 space-y-5">
                     <div>
                         <h3 className="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">1. ปัจจัยการผลิตและวัตถุดิบ</h3>
-                         <CostInputControl label="Brix เป้าหมาย" value={inputs.brix_target} min={75} max={80} step={0.5} unit="°Bx" onChange={v => handleInputChange('brix_target', v)} />
-                         <CostInputControl label="ความหนาแน่น" value={inputs.density_g_per_ml} min={1.37} max={1.40} step={0.01} unit="g/ml" onChange={v => handleInputChange('density_g_per_ml', v)} />
-                         <CostInputControl label="ราคาน้ำตาลโตนด" value={inputs.sugar_price_thb_per_kg} min={150} max={300} unit="฿/กก." onChange={v => handleInputChange('sugar_price_thb_per_kg', v)} />
-                         <CostInputControl label="ราคาเพคติน" value={inputs.pectin_price_thb_per_kg} min={700} max={1200} unit="฿/กก." onChange={v => handleInputChange('pectin_price_thb_per_kg', v)} />
-                         <CostInputControl label="อัตราส่วนเพคติน" value={inputs.pectin_rate * 100} min={0.3} max={0.5} step={0.01} unit="%" onChange={v => handleInputChange('pectin_rate', v / 100)} />
+                         <CostInputControl label="Brix เป้าหมาย" value={inputs.brix_target} min={75} max={85} step={0.5} unit="°Bx" onChange={v => handleInputChange('brix_target', v)} />
+                         <CostInputControl label="ความหนาแน่น" value={inputs.density_g_per_ml} min={1.37} max={1.50} step={0.01} unit="g/ml" onChange={v => handleInputChange('density_g_per_ml', v)} />
+                         <CostInputControl label="ราคาน้ำตาลโตนด" value={inputs.sugar_price_thb_per_kg} min={150} max={500} unit="฿/กก." onChange={v => handleInputChange('sugar_price_thb_per_kg', v)} />
+                         <CostInputControl label="ราคาเพคติน" value={inputs.pectin_price_thb_per_kg} min={700} max={2000} unit="฿/กก." onChange={v => handleInputChange('pectin_price_thb_per_kg', v)} />
+                         <CostInputControl label="อัตราส่วนเพคติน" value={inputs.pectin_rate * 100} min={0.3} max={1.0} step={0.01} unit="%" onChange={v => handleInputChange('pectin_rate', v / 100)} />
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">2. ต้นทุนคงที่ต่อขวด</h3>
-                        <CostInputControl label="ค่าจ้างผลิต (OEM)" value={inputs.oem_processing_cost_thb_per_bottle} min={10} max={40} unit="บาท" onChange={v => handleInputChange('oem_processing_cost_thb_per_bottle', v)} />
-                        <CostInputControl label="ค่าขวดและฝา" value={inputs.bottle_cap_cost_thb_per_bottle} min={5} max={20} step={0.5} unit="บาท" onChange={v => handleInputChange('bottle_cap_cost_thb_per_bottle', v)} />
-                        <CostInputControl label="ค่าฉลากและซีล" value={inputs.label_cost_thb_per_bottle + inputs.seal_cost_thb_per_bottle} min={1} max={8} step={0.25} unit="บาท" onChange={v => handleInputChange('label_cost_thb_per_bottle', v - inputs.seal_cost_thb_per_bottle)} />
-                        <CostInputControl label="ค่ากล่องและเอกสาร" value={inputs.carton_alloc_thb_per_bottle + inputs.docs_lab_alloc_thb_per_bottle} min={2} max={15} step={0.5} unit="บาท" onChange={v => handleInputChange('carton_alloc_thb_per_bottle', v - inputs.docs_lab_alloc_thb_per_bottle)} />
+                        <CostInputControl label="ค่าจ้างผลิต (OEM)" value={inputs.oem_processing_cost_thb_per_bottle} min={10} max={80} unit="บาท" onChange={v => handleInputChange('oem_processing_cost_thb_per_bottle', v)} />
+                        <CostInputControl label="ค่าขวดและฝา" value={inputs.bottle_cap_cost_thb_per_bottle} min={5} max={40} step={0.5} unit="บาท" onChange={v => handleInputChange('bottle_cap_cost_thb_per_bottle', v)} />
+                        <CostInputControl label="ค่าฉลากและซีล" value={inputs.label_cost_thb_per_bottle + inputs.seal_cost_thb_per_bottle} min={1} max={20} step={0.25} unit="บาท" onChange={v => handleInputChange('label_cost_thb_per_bottle', v - inputs.seal_cost_thb_per_bottle)} />
+                        <CostInputControl label="ค่ากล่องและเอกสาร" value={inputs.carton_alloc_thb_per_bottle + inputs.docs_lab_alloc_thb_per_bottle} min={2} max={30} step={0.5} unit="บาท" onChange={v => handleInputChange('carton_alloc_thb_per_bottle', v - inputs.docs_lab_alloc_thb_per_bottle)} />
                     </div>
                      <div>
                         <h3 className="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">3. การตั้งราคาและ Margin</h3>
-                        <CostInputControl label="เผื่อ Loss การผลิต" value={inputs.loss_rate * 100} min={1} max={5} unit="%" onChange={v => handleInputChange('loss_rate', v / 100)} />
-                        <CostInputControl label="เผื่อ Buffer/FX" value={inputs.fx_buffer_rate * 100} min={1} max={5} unit="%" onChange={v => handleInputChange('fx_buffer_rate', v / 100)} />
-                        <CostInputControl label="Margin ผู้ผลิตเป้าหมาย" value={inputs.target_fob_margin_rate * 100} min={20} max={50} unit="%" onChange={v => handleInputChange('target_fob_margin_rate', v / 100)} />
-                        <CostInputControl label="ค่าขนส่งและประกัน" value={inputs.freight_thb_per_bottle + inputs.insurance_thb_per_bottle} min={5} max={25} step={0.5} unit="บาท" onChange={v => handleInputChange('freight_thb_per_bottle', v - inputs.insurance_thb_per_bottle)} />
-                        <CostInputControl label="ส่วนแบ่งค้าปลีก" value={inputs.retail_share_percent} min={30} max={60} unit="%" onChange={v => handleInputChange('retail_share_percent', v)} />
+                        <CostInputControl label="เผื่อ Loss การผลิต" value={inputs.loss_rate * 100} min={1} max={10} unit="%" onChange={v => handleInputChange('loss_rate', v / 100)} />
+                        <CostInputControl label="เผื่อ Buffer/FX" value={inputs.fx_buffer_rate * 100} min={1} max={10} unit="%" onChange={v => handleInputChange('fx_buffer_rate', v / 100)} />
+                        <CostInputControl label="Margin ผู้ผลิตเป้าหมาย" value={inputs.target_fob_margin_rate * 100} min={20} max={80} unit="%" onChange={v => handleInputChange('target_fob_margin_rate', v / 100)} />
+                        <CostInputControl label="ค่าขนส่งและประกัน" value={inputs.freight_thb_per_bottle + inputs.insurance_thb_per_bottle} min={5} max={50} step={0.5} unit="บาท" onChange={v => handleInputChange('freight_thb_per_bottle', v - inputs.insurance_thb_per_bottle)} />
+                        <CostInputControl label="ส่วนแบ่งค้าปลีก" value={inputs.retail_share_percent} min={30} max={80} unit="%" onChange={v => handleInputChange('retail_share_percent', v)} />
+                        <CostInputControl label="อัตราแลกเปลี่ยน" value={inputs.fx_thb_per_usd} min={30} max={50} step={0.1} unit="฿/USD" onChange={v => handleInputChange('fx_thb_per_usd', v)} />
                     </div>
                 </div>
                 
@@ -356,14 +369,18 @@ const CostAnalysis: React.FC = () => {
                     <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 text-sm">
                         <h3 className="text-lg font-semibold text-gray-700 mb-2 text-center">Executive Summary</h3>
                         <p className="text-gray-600">
-                           จากการวิเคราะห์ สำหรับขนาด <strong className="text-[#4A4A4A]">150 ml</strong> มีต้นทุน FOB ที่ <strong className="text-red-600">{result150.fob_cost.toFixed(2)} ฿</strong> และเสนอราคาขาย FOB ที่ <strong className="text-green-600">{result150.fob_price.toFixed(2)} ฿</strong> ทำให้ผู้ผลิตมีกำไร <strong className="text-green-600">{result150.producer_profit.toFixed(2)} ฿</strong> ({result150.producer_margin.toFixed(2)}%)
-                           ส่วนขนาด <strong className="text-[#4A4A4A]">250 ml</strong> มีต้นทุน FOB <strong className="text-red-600">{result250.fob_cost.toFixed(2)} ฿</strong> และเสนอราคา FOB <strong className="text-green-600">{result250.fob_price.toFixed(2)} ฿</strong> สร้างกำไร <strong className="text-green-600">{result250.producer_profit.toFixed(2)} ฿</strong> ({result250.producer_margin.toFixed(2)}%).
-                           คู่ค้าจะมีต้นทุน CIF ที่ <strong className="text-blue-600">{result150.cif.toFixed(2)} ฿ (150ml)</strong> และ <strong className="text-blue-600">{result250.cif.toFixed(2)} ฿ (250ml)</strong> ตามลำดับ
+                           จากการวิเคราะห์ สำหรับขนาด <strong className="text-[#4A4A4A]">150 ml</strong> มีต้นทุน FOB ที่ <strong className="text-red-600">{result150.fob_cost.toFixed(2)} ฿</strong> และเสนอราคาขาย FOB ที่ <strong className="text-green-600">{result150.fob_price.toFixed(2)} ฿ (~${result150.fob_price_usd.toFixed(2)})</strong> ทำให้ผู้ผลิตมีกำไร <strong className="text-green-600">{result150.producer_profit.toFixed(2)} ฿</strong> ({result150.producer_margin.toFixed(2)}%)
+                           ส่วนขนาด <strong className="text-[#4A4A4A]">250 ml</strong> มีต้นทุน FOB <strong className="text-red-600">{result250.fob_cost.toFixed(2)} ฿</strong> และเสนอราคา FOB <strong className="text-green-600">{result250.fob_price.toFixed(2)} ฿ (~${result250.fob_price_usd.toFixed(2)})</strong> สร้างกำไร <strong className="text-green-600">{result250.producer_profit.toFixed(2)} ฿</strong> ({result250.producer_margin.toFixed(2)}%).
+                           คู่ค้าจะมีต้นทุน CIF ที่ <strong className="text-blue-600">{result150.cif.toFixed(2)} ฿ (~${result150.cif_usd.toFixed(2)})</strong> และ <strong className="text-blue-600">{result250.cif.toFixed(2)} ฿ (~${result250.cif_usd.toFixed(2)})</strong> ตามลำดับ
                         </p>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4">
                         <ResultTable r={result150} />
                         <ResultTable r={result250} />
+                    </div>
+
+                    <div className="my-6">
+                        <img src="https://cdn.jsdelivr.net/gh/devoncasa/goldentaan-assets@main/goldentaan-oem5.webp" alt="Palm Sugar Syrup Bottles" className="rounded-lg shadow-md w-full object-cover bg-white p-1 border-4 border-[#EFE5D8]" />
                     </div>
                     
                     {/* --- Charts Section --- */}

@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 const MetricCard: React.FC<{ title: string; value: string; note: string; valueColor: string }> = ({ title, value, note, valueColor }) => (
@@ -17,6 +16,10 @@ const Overview: React.FC = () => {
                 <p className="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">
                     Golden TAAN มุ่งมั่นผลิตน้ำเชื่อมน้ำตาลโตนดเกรดพรีเมียมจากธรรมชาติ 100% เพื่อตอบสนองตลาดคนรักสุขภาพและตลาดส่งออกที่ต้องการผลิตภัณฑ์คุณภาพสูงสุด เรานำเสนอเครื่องมือวิเคราะห์นี้เพื่อแสดงให้เห็นถึงศักยภาพและโอกาสในการเติบโตทางธุรกิจร่วมกับเรา
                 </p>
+            </div>
+
+            <div className="mb-12 max-w-4xl mx-auto">
+                <img src="https://cdn.jsdelivr.net/gh/devoncasa/goldentaan-assets@main/goldentaan-oem4.webp" alt="Artisanal Palm Sugar Syrup Production" className="rounded-lg shadow-xl w-full object-cover bg-white p-1 border-4 border-[#EFE5D8]" />
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
