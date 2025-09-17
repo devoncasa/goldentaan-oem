@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Overview from './components/Overview';
 import GoldenTaanIntro from './components/GoldenTaanIntro';
 import MarketAnalysis from './components/MarketAnalysis';
+import ExportAnalysis from './components/ExportAnalysis';
 import OemProcess from './components/OemProcess';
 import CostAnalysis from './components/CostAnalysis';
 import Partners from './components/Partners';
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         overview: useRef<HTMLDivElement>(null),
         intro: useRef<HTMLDivElement>(null),
         market: useRef<HTMLDivElement>(null),
+        export: useRef<HTMLDivElement>(null),
         process: useRef<HTMLDivElement>(null),
         costs: useRef<HTMLDivElement>(null),
         partners: useRef<HTMLDivElement>(null),
@@ -115,27 +117,31 @@ const App: React.FC = () => {
                     <MarketAnalysis />
                 </SectionWrapper>
 
-                <SectionWrapper sectionRef={sections.process} id="process" bgImage={bgImages[3]} bgColor="bg-[#EFE5D8]/[0.93]">
+                <SectionWrapper sectionRef={sections.export} id="export" bgImage={bgImages[3]} bgColor="bg-[#F4EAE0]/[0.93]">
+                    <ExportAnalysis />
+                </SectionWrapper>
+
+                <SectionWrapper sectionRef={sections.process} id="process" bgImage={bgImages[4]} bgColor="bg-[#EFE5D8]/[0.93]">
                     <OemProcess />
                 </SectionWrapper>
 
-                <SectionWrapper sectionRef={sections.costs} id="costs" bgImage={bgImages[4]} bgColor="bg-[#FDF8F0]/[0.93]">
+                <SectionWrapper sectionRef={sections.costs} id="costs" bgImage={bgImages[5]} bgColor="bg-[#FDF8F0]/[0.93]">
                     <CostAnalysis />
                 </SectionWrapper>
 
-                <SectionWrapper sectionRef={sections.partners} id="partners" bgImage={bgImages[5]} bgColor="bg-[#F4EAE0]/[0.93]">
+                <SectionWrapper sectionRef={sections.partners} id="partners" bgImage={bgImages[6]} bgColor="bg-[#F4EAE0]/[0.93]">
                     <Partners />
                 </SectionWrapper>
                 
-                <SectionWrapper sectionRef={sections.about} id="about" bgImage={bgImages[6]} bgColor="bg-[#A3B18A]/[0.93]">
+                <SectionWrapper sectionRef={sections.about} id="about" bgImage={bgImages[0]} bgColor="bg-[#A3B18A]/[0.93]">
                     <About />
                 </SectionWrapper>
 
-                <SectionWrapper sectionRef={sections.contact} id="contact" bgImage={bgImages[0]} bgColor="bg-[#FDF8F0]/[0.93]">
+                <SectionWrapper sectionRef={sections.contact} id="contact" bgImage={bgImages[1]} bgColor="bg-[#FDF8F0]/[0.93]">
                     <Contact />
                 </SectionWrapper>
 
-                <SectionWrapper sectionRef={sections.summary} id="summary" bgImage={bgImages[1]} bgColor="bg-[#EFE5D8]/[0.93]">
+                <SectionWrapper sectionRef={sections.summary} id="summary" bgImage={bgImages[2]} bgColor="bg-[#EFE5D8]/[0.93]">
                     <Summary />
                 </SectionWrapper>
             </main>
