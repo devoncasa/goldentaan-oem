@@ -193,9 +193,10 @@ const ExportAnalysis: React.FC = () => {
                         </NestedAccordion>
                         <NestedAccordion title="Labeling Deep Dive">
                              <ul className="list-disc list-inside space-y-2">
-                                <li><strong>Nutrition Facts Panel:</strong> Must use the updated format, which features a mandatory declaration for <strong>"Added Sugars"</strong> in grams and as a % Daily Value (%DV). This is a critical requirement for a sweetener.</li>
-                                <li><strong>Allergen Declaration:</strong> A significant advantage is the FDA's 2025 guidance removing <strong>coconut</strong> from the list of major tree nut allergens. This simplifies labeling for palm-based products, reducing consumer confusion.</li>
-                                <li><strong>Net Quantity:</strong> Must be displayed in both metric (ml, g) and U.S. customary units (fl oz, oz).</li>
+                                <li><strong>Nutrition Facts Panel:</strong> Must use the updated format, which features a mandatory declaration for <strong>"Added Sugars"</strong> in grams and as a % Daily Value (%DV). This panel must appear on the Principal Display Panel (PDP) or the Information Panel.</li>
+                                <li><strong>Allergen Declaration:</strong> The FDA's 2025 guidance removing <strong>coconut</strong> from the list of major tree nut allergens is a significant advantage. Other major allergens must be declared using a "Contains" statement (e.g., "Contains: Wheat, Milk") or in the ingredient list.</li>
+                                <li><strong>Net Quantity of Contents:</strong> This statement must be placed on the <strong>lower 30% of the Principal Display Panel</strong>. It must be displayed in both metric (ml, g) and U.S. customary units (fl oz, oz). Example: `Net Wt 8.5 fl oz (250ml)`.</li>
+                                <li><strong>Ingredient List:</strong> Must appear on the same panel as the manufacturer's name and address. Ingredients are listed in descending order of predominance by weight.</li>
                             </ul>
                         </NestedAccordion>
                          <NestedAccordion title="Import Documentation Checklist (U.S.)">
@@ -217,9 +218,13 @@ const ExportAnalysis: React.FC = () => {
                             <p>The "third country duty" applies as there is no operational EU-Thailand FTA. The exact rate is found in the EU's TARIC database for code 1702.90.95.00.</p>
                         </NestedAccordion>
                         <NestedAccordion title="Value-Added Tax (VAT)">
-                             <p>This is the most significant additional cost. VAT is a consumption tax applied to goods and services.</p>
+                             <p>This is the most significant additional cost. VAT is a consumption tax applied to goods and services, levied at the port of entry.</p>
+                             <p className="mt-2">The tax is calculated on the total landed cost, which includes the value of the goods plus shipping, insurance (CIF Value), and any import duties.</p>
+                             <div className="my-3 p-3 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-r-lg">
+                                <p className="font-semibold">VAT Calculation Formula:</p>
+                                <code className="block mt-1 text-sm bg-gray-100 p-2 rounded">(CIF Value + Customs Duty) * VAT Rate %</code>
+                             </div>
                              <ul className="list-disc list-inside space-y-2 mt-2">
-                                 <li><strong>Calculation:</strong> VAT is levied at the port of entry and calculated on the total of the <strong>(CIF Value + Customs Duty)</strong>. The formula is: `(CIF + Duty) * VAT Rate %`.</li>
                                  <li><strong>Rate Variation:</strong> The rate is not harmonized across the EU and varies by the member state of importation. Crucially, most food products qualify for a <strong>reduced VAT rate</strong>. Examples include:
                                      <ul className="list-['•_'] list-inside ml-5 mt-1 text-xs space-y-1">
                                          <li>Germany: Standard rate 19%, <strong>reduced rate for food 7%</strong>.</li>
@@ -235,7 +240,8 @@ const ExportAnalysis: React.FC = () => {
                         </NestedAccordion>
                         <NestedAccordion title="Labeling Deep Dive">
                              <ul className="list-disc list-inside space-y-2">
-                                <li><strong>Allergen Labeling:</strong> The 14 EU-defined allergens must be <strong>emphasized directly within the ingredients list</strong> (e.g., using bold text, italics, or underlining).</li>
+                                <li><strong>Allergen Labeling:</strong> The 14 EU-defined allergens must be <strong>emphasized directly within the ingredients list</strong>. A separate "Contains" statement is not sufficient. Example: `Ingredients: Flour (**Wheat**), Sugar, Butter (**Milk**).`</li>
+                                <li><strong>Font Size:</strong> Mandatory information (like ingredients) must be printed in a font with a minimum <strong>x-height of 1.2mm</strong> to ensure legibility.</li>
                                 <li><strong>Nutrition Declaration:</strong> A mandatory table showing values per 100g/ml for energy, fat, saturates, carbohydrate, sugars, protein, and salt.</li>
                                 <li><strong>Responsible Operator:</strong> The label must include the name and address of the EU-based food business operator responsible for the product (usually the importer).</li>
                                 <li><strong>Language:</strong> Must be in the official language(s) of the country where the product is sold.</li>
@@ -272,8 +278,14 @@ const ExportAnalysis: React.FC = () => {
                          <NestedAccordion title="Labeling Deep Dive">
                             <ul className="list-disc list-inside space-y-2">
                                 <li><strong>Language and Application:</strong> All mandatory information must be in Japanese. This is typically done via a sticker applied by the importer in Japan before domestic sale.</li>
-                                <li><strong>Allergen System:</strong> Japan has a two-tiered system: <strong>8 mandatory allergens</strong> (e.g., wheat, egg, milk) and <strong>20 recommended allergens</strong> (e.g., soy, almond) that should be declared.</li>
-                                <li><strong>Nutrition Panel:</strong> Requires a specific format listing Energy (calories), Protein, Fat, Carbohydrates, and Sodium (expressed as <strong>"salt equivalent"</strong>).</li>
+                                <li><strong>Allergen System:</strong> Japan has a two-tiered system:
+                                    <ul className="list-['-_'] list-inside ml-5 mt-1 space-y-1">
+                                        <li><strong>8 Mandatory Allergens:</strong> shrimp, crab, walnut, wheat, buckwheat, egg, milk, and peanut.</li>
+                                        <li><strong>20 Recommended Allergens:</strong> (e.g., soy, almond) that should be declared if present.</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Nutrition Panel:</strong> Requires a specific format listing the following five items in a strict order: <strong>1. Energy (calories), 2. Protein, 3. Fat, 4. Carbohydrates, and 5. Sodium (expressed as "salt equivalent")</strong>.</li>
+                                <li><strong>Date Marking:</strong> Typically displayed as `Year.Month.Day`. For example: `25.09.30`.</li>
                             </ul>
                         </NestedAccordion>
                         <NestedAccordion title="Import Documentation Checklist (Japan)">
@@ -306,10 +318,10 @@ const ExportAnalysis: React.FC = () => {
                         </NestedAccordion>
                          <NestedAccordion title="Labeling Deep Dive">
                             <ul className="list-disc list-inside space-y-2">
-                                <li><strong>Language:</strong> Product labels must be in <strong>Arabic</strong>, either as the sole language or alongside English. Key information like product name, ingredients, and country of origin must be in Arabic.</li>
-                                <li><strong>HALAL Mark:</strong> A recognized HALAL mark or logo on the product packaging is mandatory.</li>
-                                <li><strong>Dates:</strong> Production and Expiry dates are mandatory and must be clearly printed (e.g., "DD/MM/YYYY"). Stickers for these dates are generally not permitted.</li>
-                                <li><strong>Country of Origin:</strong> Must be clearly declared on the label.</li>
+                                <li><strong>Language:</strong> Product labels must be in <strong>Arabic</strong>, either as the sole language or alongside English. Key information (product name, ingredients, country of origin) must be in Arabic. Example: `Palm Sugar Syrup / شراب سكر النخيل`.</li>
+                                <li><strong>HALAL Mark:</strong> A recognized HALAL mark from a UAE-approved certification body must be clearly visible on the packaging.</li>
+                                <li><strong>Dates:</strong> This is a very strict requirement. Production and Expiry dates are mandatory and must be <strong>printed directly on the package</strong> (not on a sticker) in a clear, non-coded format (e.g., `PROD: 01/09/2025`, `EXP: 31/08/2026`). Failure to comply can result in shipment rejection.</li>
+                                <li><strong>Country of Origin:</strong> Must be clearly declared on the label. Example: `Product of Thailand / منتج من تايلاند`.</li>
                             </ul>
                         </NestedAccordion>
                         <NestedAccordion title="Import Documentation Checklist (UAE)">

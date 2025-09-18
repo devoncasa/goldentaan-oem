@@ -9,6 +9,7 @@ const navLinks: NavLink[] = [
     { href: '#overview', label: 'ภาพรวม' },
     { href: '#intro', label: 'เกี่ยวกับ Golden TAAN' },
     { href: '#market', label: 'เจาะลึกตลาด' },
+    { href: '#competitors', label: 'วิเคราะห์คู่แข่ง' },
     { href: '#export', label: 'วิเคราะห์การส่งออก' },
     { href: '#process', label: 'กระบวนการผลิต' },
     { href: '#costs', label: 'วิเคราะห์ต้นทุน' },
